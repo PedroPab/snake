@@ -1,7 +1,7 @@
 const canvas = document.getElementById('canvas')
 const ctx = canvas.getContext('2d')
 
-const time = 200
+const time = 100
 let start = false
 let cycle
 if (!ctx) console.log(new Error('no se inicio el canvas correctamente'))
@@ -18,12 +18,16 @@ class snake {
             {
                 x: 40, y: 400,
                 color: this.properties.COLOR_BODY
+            },
+            {
+                x: 30, y: 400,
+                color: this.properties.COLOR_BODY
             }]
-        console.log(this.coordinates)
 
         this.score = 0
         this.history = []
         this.direction = DIRECTION.RIGHT
+        this.direction_real = DIRECTION.RIGHT
 
     }
     draw() {
@@ -34,16 +38,45 @@ class snake {
     update() {
         ctx.clearRect(0, 0, 500, 500)
 
-
         switch (this.direction) {
             case DIRECTION.UP:
+                for (let index = this.coordinates.length - 1; index > -1; index--) {
+                    if (index == 0) {
+                        this.coordinates[index].y = this.coordinates[index].y - this.properties.WIDTH
 
+
+                    } else {
+                        this.coordinates[index].x = this.coordinates[index - 1].x
+                        this.coordinates[index].y = this.coordinates[index - 1].y
+                    }
+                }
+                this.direction_real = DIRECTION.UP
                 break;
             case DIRECTION.DOWN:
+                for (let index = this.coordinates.length - 1; index > -1; index--) {
+                    if (index == 0) {
+                        this.coordinates[index].y = this.coordinates[index].y + this.properties.WIDTH
 
+
+                    } else {
+                        this.coordinates[index].x = this.coordinates[index - 1].x
+                        this.coordinates[index].y = this.coordinates[index - 1].y
+                    }
+                }
+                this.direction_real = DIRECTION.DOWN
                 break;
             case DIRECTION.LEFT:
+                for (let index = this.coordinates.length - 1; index > -1; index--) {
+                    if (index == 0) {
+                        this.coordinates[index].x = this.coordinates[index].x - this.properties.HIGH
 
+
+                    } else {
+                        this.coordinates[index].x = this.coordinates[index - 1].x
+                        this.coordinates[index].y = this.coordinates[index - 1].y
+                    }
+                }
+                this.direction_real = DIRECTION.LEFT
                 break;
             case DIRECTION.RIGHT:
                 for (let index = this.coordinates.length - 1; index > -1; index--) {
@@ -56,7 +89,7 @@ class snake {
                         this.coordinates[index].y = this.coordinates[index - 1].y
                     }
                 }
-                this.coordinates.map((elem) => console.log(elem))
+                this.direction_real = DIRECTION.RIGHT
                 break;
 
             default:
@@ -110,24 +143,28 @@ function keyDown(elemt) {
             }
             break
         case KEYS.UP:
-            snake_1.direction == DIRECTION.DOWN
-                ? snake_1.direction == snake_1.direction
+            snake_1.direction_real == DIRECTION.DOWN
+                ? false
                 : snake_1.direction = DIRECTION.UP
+
             break
         case KEYS.DOWN:
-            snake_1.direction == DIRECTION.UP
-                ? snake_1.direction == snake_1.direction
+            snake_1.direction_real == DIRECTION.UP
+                ? false
                 : snake_1.direction = DIRECTION.DOWN
+
             break
         case KEYS.LEFT:
-            snake_1.direction == DIRECTION.RIGHT
-                ? snake_1.direction == snake_1.direction
+            snake_1.direction_real == DIRECTION.RIGHT
+                ? false
                 : snake_1.direction = DIRECTION.LEFT
+
             break
         case KEYS.RIGHT:
-            snake_1.direction == DIRECTION.LEFT
-                ? snake_1.direction == snake_1.direction
+            snake_1.direction_real == DIRECTION.LEFT
+                ? false
                 : snake_1.direction = DIRECTION.RIGHT
+
             break
         default:
             break
@@ -142,10 +179,4 @@ function drawSquare(color, x, y) {
 
 }
 
-function reversedd(invest) {
-    const reverse_move = invest.map((elemt, index, array) => {
-        return elemt = array[index]
-    })
-    return reverse_move
-}
 
