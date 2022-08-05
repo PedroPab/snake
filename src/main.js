@@ -96,6 +96,15 @@ class snake {
                 break;
         }
         this.draw()
+        this.checkCollisions()
+        this.checkCollisionsApple()
+
+    }
+    checkCollisions(){
+
+    }
+    checkCollisionsApple(){
+        
     }
 }
 //cosntstes del key code de las teclas
@@ -117,10 +126,19 @@ const DIRECTION = {
 
 //configuracion y propiedades de la serpiente
 const CONFIG_SNAKE = {
+    WIDTH: 20,
+    HIGH: 20,
+    COLOR_BODY: '#2A7A8C',
+    COLOR_HEAD: '#090A0D',
+}
+
+const CONFIG_APPLE = {
     WIDTH: 10,
     HIGH: 10,
-    COLOR_BODY: '#001010',
-    COLOR_HEAD: '#F2BB5C',
+    COLOR: '#F23030',
+    APPLES_COORDINATES: [{
+        x: 210, y: 200, color: '#F23030',
+    }],
 }
 
 //temporalmente luego esto se deve de poner de manera mas eficiente
@@ -136,6 +154,7 @@ function keyDown(elemt) {
                 snake_1.draw()
                 cycle = setInterval(() => {
                     snake_1.update()
+                    drawApple()
                 }, time);
             } else {
                 start = false
@@ -176,6 +195,14 @@ function keyDown(elemt) {
 function drawSquare(color, x, y) {
     ctx.fillStyle = color
     ctx.fillRect(x, y, CONFIG_SNAKE.WIDTH, CONFIG_SNAKE.HIGH)
+
+}
+
+//dibujar las manzanas
+function drawApple(){
+    CONFIG_APPLE.APPLES_COORDINATES.map((elemt)=>{
+        drawSquare(elemt.color, elemt.x, elemt.y)
+    })
 
 }
 
