@@ -22,6 +22,18 @@ class snake {
             {
                 x: 30, y: 400,
                 color: this.properties.COLOR_BODY
+            },
+            {
+                x: 20, y: 400,
+                color: this.properties.COLOR_BODY
+            },
+            {
+                x: 10, y: 400,
+                color: this.properties.COLOR_BODY
+            },
+            {
+                x: 0, y: 400,
+                color: this.properties.COLOR_BODY
             }]
 
         this.score = 0
@@ -100,11 +112,36 @@ class snake {
         this.checkCollisionsApple()
 
     }
-    checkCollisions(){
+    checkCollisions() {
+        const collision = this.coordinates.some((elemt, index, array) => {
+            if(index == 0) return false
+            if (elemt.x == array[0].x && elemt.y == array[0].y) {
+                return true
+            }else false
+        })
+        console.log(collision)
+        if (collision) {
+            clearInterval(cycle)
+            console.log('se choco con sigo misma')
+        }
+
+
 
     }
-    checkCollisionsApple(){
+    checkCollisionsApple() {
         
+        const collision = this.coordinates.some((elemt, index, array) => {
+            if(index == 0) return false
+            if (elemt.x == array[0].x && elemt.y == array[0].y) {
+                return true
+            }else false
+        })
+        console.log(collision)
+        if (collision) {
+            clearInterval(cycle)
+            console.log('se choco con sigo misma')
+        }
+
     }
 }
 //cosntstes del key code de las teclas
@@ -199,8 +236,8 @@ function drawSquare(color, x, y) {
 }
 
 //dibujar las manzanas
-function drawApple(){
-    CONFIG_APPLE.APPLES_COORDINATES.map((elemt)=>{
+function drawApple() {
+    CONFIG_APPLE.APPLES_COORDINATES.map((elemt) => {
         drawSquare(elemt.color, elemt.x, elemt.y)
     })
 
