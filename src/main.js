@@ -113,11 +113,12 @@ class snake {
 
     }
     checkCollisions() {
+        
         const collision = this.coordinates.some((elemt, index, array) => {
-            if(index == 0) return false
+            if (index == 0) return false
             if (elemt.x == array[0].x && elemt.y == array[0].y) {
                 return true
-            }else false
+            } else false
         })
         console.log(collision)
         if (collision) {
@@ -129,20 +130,23 @@ class snake {
 
     }
     checkCollisionsApple() {
-        
+
         const collision = this.coordinates.some((elemt, index, array) => {
-            if(index == 0) return false
-            if (elemt.x == array[0].x && elemt.y == array[0].y) {
+            if (index == 0) return false
+            if (CONFIG_APPLE.APPLES_COORDINATES.some((ele) => {
+                return elemt.x == ele.x && elemt.y == ele.y
+            })) {
                 return true
-            }else false
+            } else false
         })
         console.log(collision)
         if (collision) {
-            clearInterval(cycle)
-            console.log('se choco con sigo misma')
+            console.log('se comio una manzana')
         }
+        
 
     }
+    
 }
 //cosntstes del key code de las teclas
 const KEYS = {
