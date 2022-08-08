@@ -131,22 +131,19 @@ class snake {
     }
     checkCollisionsApple() {
 
-        const collision = this.coordinates.some((elemt, index, array) => {
-            if (index == 0) return false
-            if (CONFIG_APPLE.APPLES_COORDINATES.some((ele) => {
-                return elemt.x == ele.x && elemt.y == ele.y
-            })) {
-                return true
-            } else false
+        const collision = CONFIG_APPLE.APPLES_COORDINATES.some((elemt)=>{
+            return elemt.x == this.coordinates[0].x 
+            && elemt.y == this.coordinates[0].y 
         })
         console.log(collision)
         if (collision) {
-            console.log('se comio una manzana')
+            this.score += 1 
+            console.log('se comio una manzana', this.score)
         }
         
 
     }
-    
+
 }
 //cosntstes del key code de las teclas
 const KEYS = {
@@ -180,6 +177,7 @@ const CONFIG_APPLE = {
     APPLES_COORDINATES: [{
         x: 210, y: 200, color: '#F23030',
     }],
+    
 }
 
 //temporalmente luego esto se deve de poner de manera mas eficiente
@@ -247,4 +245,12 @@ function drawApple() {
 
 }
 
+//establecer aleatoriamente coorgenadas
+function randomRoordinates(){
+    const divicibel_width = canvas.width / CONFIG_SNAKE.WIDTH
+    const divicibel_high = canvas.height / CONFIG_SNAKE.HIGH
+    const ramdom_x = Math.floor( divicibel_width * ( Math.random())) * CONFIG_SNAKE.WIDTH
+    const ramdom_y = Math.floor( divicibel_high * ( Math.random())) * CONFIG_SNAKE.HIGH
+    return {x: ramdom_x, y: ramdom_y}
+}
 
