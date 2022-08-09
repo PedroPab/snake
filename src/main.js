@@ -55,7 +55,12 @@ class snake {
             case DIRECTION.UP:
                 for (let index = this.coordinates.length - 1; index > -1; index--) {
                     if (index == 0) {
-                        this.coordinates[index].y = this.coordinates[index].y - this.properties.WIDTH
+                        if (this.coordinates[index].y == 0) {
+                            this.coordinates[index].y = canvas.width - CONFIG_SNAKE.WIDTH
+                        } else {
+                            this.coordinates[index].y = this.coordinates[index].y - this.properties.WIDTH
+
+                        }
 
 
                     } else {
@@ -68,7 +73,12 @@ class snake {
             case DIRECTION.DOWN:
                 for (let index = this.coordinates.length - 1; index > -1; index--) {
                     if (index == 0) {
-                        this.coordinates[index].y = this.coordinates[index].y + this.properties.WIDTH
+                        if (this.coordinates[index].y == canvas.width - CONFIG_SNAKE.WIDTH) {
+                            this.coordinates[index].y = 0
+                        } else {
+                            this.coordinates[index].y = this.coordinates[index].y + this.properties.WIDTH
+
+                        }
 
 
                     } else {
@@ -81,7 +91,11 @@ class snake {
             case DIRECTION.LEFT:
                 for (let index = this.coordinates.length - 1; index > -1; index--) {
                     if (index == 0) {
-                        this.coordinates[index].x = this.coordinates[index].x - this.properties.HIGH
+                        if (this.coordinates[index].x == 0) {
+                            this.coordinates[index].x = canvas.height - CONFIG_SNAKE.HIGH
+                        } else {
+                            this.coordinates[index].x = this.coordinates[index].x - this.properties.HIGH
+                        }
 
 
                     } else {
@@ -94,7 +108,11 @@ class snake {
             case DIRECTION.RIGHT:
                 for (let index = this.coordinates.length - 1; index > -1; index--) {
                     if (index == 0) {
-                        this.coordinates[index].x = this.coordinates[index].x + this.properties.HIGH
+                        if (this.coordinates[index].x == canvas.height - CONFIG_SNAKE.HIGH) {
+                            this.coordinates[index].x = 0
+                        } else {
+                            this.coordinates[index].x = this.coordinates[index].x + this.properties.HIGH
+                        }
 
 
                     } else {
@@ -148,7 +166,7 @@ class snake {
 
             CONFIG_APPLE.APPLES_COORDINATES.splice(food, 1)
             console.log(this.score)
-            this.coordinates.push({...this.coordinates[this.coordinates.length - 1]})
+            this.coordinates.push({ ...this.coordinates[this.coordinates.length - 1] })
             this.pocibleApple()
 
         }
@@ -171,12 +189,12 @@ class snake {
                     return true
                 } else false
             })
-            if(!collision){
-                CONFIG_APPLE.APPLES_COORDINATES.push({...pocible_apple, color: CONFIG_APPLE.COLOR})
-            }else{
+            if (!collision) {
+                CONFIG_APPLE.APPLES_COORDINATES.push({ ...pocible_apple, color: CONFIG_APPLE.COLOR })
+            } else {
                 this.pocibleApple()
             }
-        }else{
+        } else {
             this.pocibleApple()
         }
     }
