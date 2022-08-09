@@ -1,5 +1,6 @@
 const canvas = document.getElementById('canvas')
 const ctx = canvas.getContext('2d')
+const p_score = document.getElementById('p_score')
 
 const time = 100
 let start = false
@@ -166,6 +167,7 @@ class snake {
 
             CONFIG_APPLE.APPLES_COORDINATES.splice(food, 1)
             console.log(this.score)
+            p_score.innerHTML = `score: ${this.score}`
             this.coordinates.push({ ...this.coordinates[this.coordinates.length - 1] })
             this.pocibleApple()
 
