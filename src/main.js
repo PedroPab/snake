@@ -140,7 +140,6 @@ class snake {
                 return true
             } else false
         })
-        console.log(collision)
         if (collision) {
             clearInterval(cycle)
             console.log('se choco con sigo misma')
@@ -159,14 +158,9 @@ class snake {
             }
             return false
         })
-        console.log(collision)
         if (collision) {
             this.score += 1
-            console.log('se comio una manzana', this.score)
-            console.log(CONFIG_APPLE.APPLES_COORDINATES)
-
             CONFIG_APPLE.APPLES_COORDINATES.splice(food, 1)
-            console.log(this.score)
             p_score.innerHTML = `score: ${this.score}`
             this.coordinates.push({ ...this.coordinates[this.coordinates.length - 1] })
             this.pocibleApple()
