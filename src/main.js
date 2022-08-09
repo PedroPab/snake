@@ -10,9 +10,10 @@ if (!ctx) console.log(new Error('no se inicio el canvas correctamente'))
 class snake {
     constructor() {
         this.properties = CONFIG_SNAKE
+
         this.coordinates = [
             {
-                x: 50, y: 400,
+                x: 60, y: 400,
                 color: this.properties.COLOR_HEAD
             },
             {
@@ -20,15 +21,15 @@ class snake {
                 color: this.properties.COLOR_BODY
             },
             {
-                x: 30, y: 400,
-                color: this.properties.COLOR_BODY
-            },
-            {
                 x: 20, y: 400,
                 color: this.properties.COLOR_BODY
             },
             {
-                x: 10, y: 400,
+                x: 0, y: 400,
+                color: this.properties.COLOR_BODY
+            },
+            {
+                x: -20, y: 400,
                 color: this.properties.COLOR_BODY
             },
             {
@@ -109,11 +110,11 @@ class snake {
         }
         this.draw()
         this.checkCollisions()
-        this.checkCollisionsApple()
+        this.appleFood()
 
     }
     checkCollisions() {
-        
+
         const collision = this.coordinates.some((elemt, index, array) => {
             if (index == 0) return false
             if (elemt.x == array[0].x && elemt.y == array[0].y) {
@@ -129,19 +130,55 @@ class snake {
 
 
     }
-    checkCollisionsApple() {
-
-        const collision = CONFIG_APPLE.APPLES_COORDINATES.some((elemt)=>{
-            return elemt.x == this.coordinates[0].x 
-            && elemt.y == this.coordinates[0].y 
+    appleFood() {
+        let food
+        const collision = CONFIG_APPLE.APPLES_COORDINATES.some((elemt, index) => {
+            if (elemt.x == this.coordinates[0].x
+                && elemt.y == this.coordinates[0].y) {
+                food = index
+                return true
+            }
+            return false
         })
         console.log(collision)
         if (collision) {
-            this.score += 1 
+            this.score += 1
             console.log('se comio una manzana', this.score)
-        }
-        
+            console.log(CONFIG_APPLE.APPLES_COORDINATES)
 
+            CONFIG_APPLE.APPLES_COORDINATES.splice(food, 1)
+            console.log(this.score)
+            this.coordinates.push({...this.coordinates[this.coordinates.length - 1]})
+            this.pocibleApple()
+
+        }
+
+
+    }
+    pocibleApple() {
+        const pocible_apple = randomRoordinates()
+        const collision = CONFIG_APPLE.APPLES_COORDINATES.some((elemt, index) => {
+            if (elemt.x == pocible_apple.x
+                && elemt.y == pocible_apple.y) {
+                return true
+            }
+            return false
+        })
+        if (!collision) {
+            const collision = this.coordinates.some((elemt, index, array) => {
+
+                if (elemt.x == pocible_apple.x && elemt.y == pocible_apple.y) {
+                    return true
+                } else false
+            })
+            if(!collision){
+                CONFIG_APPLE.APPLES_COORDINATES.push({...pocible_apple, color: CONFIG_APPLE.COLOR})
+            }else{
+                this.pocibleApple()
+            }
+        }else{
+            this.pocibleApple()
+        }
     }
 
 }
@@ -175,9 +212,9 @@ const CONFIG_APPLE = {
     HIGH: 10,
     COLOR: '#F23030',
     APPLES_COORDINATES: [{
-        x: 210, y: 200, color: '#F23030',
+        x: 220, y: 200, color: '#F23030',
     }],
-    
+
 }
 
 //temporalmente luego esto se deve de poner de manera mas eficiente
@@ -246,11 +283,11 @@ function drawApple() {
 }
 
 //establecer aleatoriamente coorgenadas
-function randomRoordinates(){
+function randomRoordinates() {
     const divicibel_width = canvas.width / CONFIG_SNAKE.WIDTH
     const divicibel_high = canvas.height / CONFIG_SNAKE.HIGH
-    const ramdom_x = Math.floor( divicibel_width * ( Math.random())) * CONFIG_SNAKE.WIDTH
-    const ramdom_y = Math.floor( divicibel_high * ( Math.random())) * CONFIG_SNAKE.HIGH
-    return {x: ramdom_x, y: ramdom_y}
+    const ramdom_x = Math.floor(divicibel_width * (Math.random())) * CONFIG_SNAKE.WIDTH
+    const ramdom_y = Math.floor(divicibel_high * (Math.random())) * CONFIG_SNAKE.HIGH
+    return { x: ramdom_x, y: ramdom_y }
 }
 
