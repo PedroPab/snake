@@ -50,7 +50,7 @@ class snake {
         })
     }
     update() {
-        ctx.clearRect(0, 0, 500, 500)
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
 
         switch (this.direction) {
             case DIRECTION.UP:
@@ -143,6 +143,16 @@ class snake {
         if (collision) {
             clearInterval(cycle)
             console.log('se choco con sigo misma')
+            const game_over = ()=>{
+                const img_gamer_over = new Image() 
+                img_gamer_over.src = 'https://petrolejonesescritor.files.wordpress.com/2018/08/game-over.png?w=640'
+                
+                img_gamer_over.addEventListener('load', () => {
+                    ctx.drawImage(img_gamer_over, 0, 0)
+                    console.log(img_gamer_over)
+                })
+            }
+            game_over()
         }
 
 
@@ -222,14 +232,25 @@ const CONFIG_SNAKE = {
 }
 
 const CONFIG_APPLE = {
-    WIDTH: 10,
-    HIGH: 10,
+    WIDTH: 20,
+    HIGH: 20,
     COLOR: '#F23030',
     APPLES_COORDINATES: [{
         x: 220, y: 200, color: '#F23030',
     }],
 
 }
+
+const CONFIG_BLOCK = {
+    WIDTH: 20,
+    HIGH: 20,
+    COLOR: '#3B4B8C',
+    COORDINATES: [
+        { x: 80, y: 80, color: 'black' }
+    ]
+
+}
+console.log(CONFIG_BLOCK)
 
 //temporalmente luego esto se deve de poner de manera mas eficiente
 let snake_1 = new snake()
@@ -245,38 +266,48 @@ function keyDown(elemt) {
                 cycle = setInterval(() => {
                     snake_1.update()
                     drawApple()
+                    drawBlock()
+                    
                 }, time);
             } else {
                 start = false
                 clearInterval(cycle)
             }
             break
-        case KEYS.UP:
-            snake_1.direction_real == DIRECTION.DOWN
-                ? false
-                : snake_1.direction = DIRECTION.UP
+    }
 
-            break
-        case KEYS.DOWN:
-            snake_1.direction_real == DIRECTION.UP
-                ? false
-                : snake_1.direction = DIRECTION.DOWN
+    if (start) {
 
-            break
-        case KEYS.LEFT:
-            snake_1.direction_real == DIRECTION.RIGHT
-                ? false
-                : snake_1.direction = DIRECTION.LEFT
 
-            break
-        case KEYS.RIGHT:
-            snake_1.direction_real == DIRECTION.LEFT
-                ? false
-                : snake_1.direction = DIRECTION.RIGHT
+        switch (elemt.keyCode) {
 
-            break
-        default:
-            break
+            case KEYS.UP:
+                snake_1.direction_real == DIRECTION.DOWN
+                    ? false
+                    : snake_1.direction = DIRECTION.UP
+
+                break
+            case KEYS.DOWN:
+                snake_1.direction_real == DIRECTION.UP
+                    ? false
+                    : snake_1.direction = DIRECTION.DOWN
+
+                break
+            case KEYS.LEFT:
+                snake_1.direction_real == DIRECTION.RIGHT
+                    ? false
+                    : snake_1.direction = DIRECTION.LEFT
+
+                break
+            case KEYS.RIGHT:
+                snake_1.direction_real == DIRECTION.LEFT
+                    ? false
+                    : snake_1.direction = DIRECTION.RIGHT
+
+                break
+            default:
+                break
+        }
     }
 
 }
@@ -291,6 +322,14 @@ function drawSquare(color, x, y) {
 //dibujar las manzanas
 function drawApple() {
     CONFIG_APPLE.APPLES_COORDINATES.map((elemt) => {
+        drawSquare(elemt.color, elemt.x, elemt.y)
+    })
+
+}
+
+//dibuajr los bloques solidos
+function drawBlock() {
+    CONFIG_BLOCK.COORDINATES.map((elemt) => {
         drawSquare(elemt.color, elemt.x, elemt.y)
     })
 
